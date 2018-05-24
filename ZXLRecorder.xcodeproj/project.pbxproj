@@ -13,9 +13,9 @@
 		82D4F41C20A929C70081AC2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82D4F41B20A929C70081AC2F /* Assets.xcassets */; };
 		82D4F41F20A929C70081AC2F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 82D4F41D20A929C70081AC2F /* LaunchScreen.storyboard */; };
 		82D4F42220A929C70081AC2F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4F42120A929C70081AC2F /* main.m */; };
-		82D4F42920A929EE0081AC2F /* lame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D4F42820A929EE0081AC2F /* lame.framework */; };
-		82D4F42C20A92A1B0081AC2F /* ZXLRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D4F42B20A92A1B0081AC2F /* ZXLRecorder.m */; };
-		82F87DE520AE699A00B0B151 /* ZXLThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F87DE420AE699A00B0B151 /* ZXLThread.m */; };
+		82D9331C20B68DD3002B17D3 /* lame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D9331720B68DD3002B17D3 /* lame.framework */; };
+		82D9331D20B68DD3002B17D3 /* ZXLRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D9331820B68DD3002B17D3 /* ZXLRecorder.m */; };
+		82D9331E20B68DD3002B17D3 /* ZXLThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 82D9331B20B68DD3002B17D3 /* ZXLThread.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,11 +29,11 @@
 		82D4F41E20A929C70081AC2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		82D4F42020A929C70081AC2F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		82D4F42120A929C70081AC2F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		82D4F42820A929EE0081AC2F /* lame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = lame.framework; sourceTree = "<group>"; };
-		82D4F42A20A92A1B0081AC2F /* ZXLRecorder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXLRecorder.h; sourceTree = "<group>"; };
-		82D4F42B20A92A1B0081AC2F /* ZXLRecorder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXLRecorder.m; sourceTree = "<group>"; };
-		82F87DE320AE699A00B0B151 /* ZXLThread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXLThread.h; sourceTree = "<group>"; };
-		82F87DE420AE699A00B0B151 /* ZXLThread.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXLThread.m; sourceTree = "<group>"; };
+		82D9331720B68DD3002B17D3 /* lame.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = lame.framework; sourceTree = "<group>"; };
+		82D9331820B68DD3002B17D3 /* ZXLRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXLRecorder.m; sourceTree = "<group>"; };
+		82D9331920B68DD3002B17D3 /* ZXLThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXLThread.h; sourceTree = "<group>"; };
+		82D9331A20B68DD3002B17D3 /* ZXLRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXLRecorder.h; sourceTree = "<group>"; };
+		82D9331B20B68DD3002B17D3 /* ZXLThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXLThread.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82D4F42920A929EE0081AC2F /* lame.framework in Frameworks */,
+				82D9331C20B68DD3002B17D3 /* lame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,11 +71,8 @@
 				82D4F41320A929C50081AC2F /* AppDelegate.m */,
 				82D4F41520A929C50081AC2F /* ViewController.h */,
 				82D4F41620A929C50081AC2F /* ViewController.m */,
-				82D4F42A20A92A1B0081AC2F /* ZXLRecorder.h */,
-				82D4F42B20A92A1B0081AC2F /* ZXLRecorder.m */,
-				82F87DE320AE699A00B0B151 /* ZXLThread.h */,
-				82F87DE420AE699A00B0B151 /* ZXLThread.m */,
-				82D4F42820A929EE0081AC2F /* lame.framework */,
+				82D9331620B68DD3002B17D3 /* Recorder */,
+				82D9331720B68DD3002B17D3 /* lame.framework */,
 				82D4F41820A929C50081AC2F /* Main.storyboard */,
 				82D4F41B20A929C70081AC2F /* Assets.xcassets */,
 				82D4F41D20A929C70081AC2F /* LaunchScreen.storyboard */,
@@ -83,6 +80,17 @@
 				82D4F42120A929C70081AC2F /* main.m */,
 			);
 			path = ZXLRecorder;
+			sourceTree = "<group>";
+		};
+		82D9331620B68DD3002B17D3 /* Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				82D9331A20B68DD3002B17D3 /* ZXLRecorder.h */,
+				82D9331820B68DD3002B17D3 /* ZXLRecorder.m */,
+				82D9331920B68DD3002B17D3 /* ZXLThread.h */,
+				82D9331B20B68DD3002B17D3 /* ZXLThread.m */,
+			);
+			path = Recorder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,10 +163,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82F87DE520AE699A00B0B151 /* ZXLThread.m in Sources */,
-				82D4F42C20A92A1B0081AC2F /* ZXLRecorder.m in Sources */,
+				82D9331E20B68DD3002B17D3 /* ZXLThread.m in Sources */,
 				82D4F41720A929C50081AC2F /* ViewController.m in Sources */,
 				82D4F42220A929C70081AC2F /* main.m in Sources */,
+				82D9331D20B68DD3002B17D3 /* ZXLRecorder.m in Sources */,
 				82D4F41420A929C50081AC2F /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,6 +312,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZXLRecorder",
+					"$(PROJECT_DIR)/ZXLRecorder/Recorder",
 				);
 				INFOPLIST_FILE = ZXLRecorder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -325,6 +334,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ZXLRecorder",
+					"$(PROJECT_DIR)/ZXLRecorder/Recorder",
 				);
 				INFOPLIST_FILE = ZXLRecorder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
