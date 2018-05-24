@@ -9,12 +9,7 @@
 #import "ZXLRecorder.h"
 #import <AVFoundation/AVFoundation.h>
 #import "ZXLThread.h"
-
-#if __has_include(<lame/lame.h>)
 #import <lame/lame.h>
-#else
-#import "lame.h"
-#endif
 
 #define ZXLAudioRecorderCache @"com.zxl.chat.ZXLAudioRecorderCache"
 
