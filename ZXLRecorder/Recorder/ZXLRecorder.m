@@ -30,6 +30,7 @@
         _delegate = delegate;
         self.isStopRecord = YES;
         self.isDestroyRecord = YES;
+        self.maxTime = 60;
     }
     return self;
 }
@@ -115,7 +116,7 @@
     }
     // 当前录音的时间大于最大时间，停止录音
     NSTimeInterval currentTimeInterval = _recorder.currentTime;
-    if (currentTimeInterval >= ZXLVoiceRecorderTotalTime) {
+    if (currentTimeInterval >= self.maxTime) {
         [self stop];
         if ([self.delegate respondsToSelector:@selector(maxTimeStopRecord)]) {
             dispatch_async(dispatch_get_main_queue(), ^{

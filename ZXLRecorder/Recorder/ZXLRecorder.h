@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#define ZXLVoiceRecorderTotalTime  60.0 //秒
-
 @protocol ZXLRecorderDelegate <NSObject>
 
 /**
@@ -47,7 +45,19 @@
 
 @interface ZXLRecorder : NSObject
 @property (nonatomic, weak) id<ZXLRecorderDelegate> delegate;
+
+/**
+ 录音最大时间 （多久自动结束）默认 60秒
+ */
+@property (nonatomic, assign) NSInteger maxTime;
+
 - (instancetype)initWithDelegate:(id<ZXLRecorderDelegate>)delegate;
+
+/**
+ 是否正在录音
+ */
+-(BOOL)isRecording;
+
 /**
  录音开始
  */
