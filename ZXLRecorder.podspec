@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXLRecorder"
-  s.version      = "1.0.0"
+  s.version      = "1.0.1"
   s.summary      = "A Library for iOS to use for recorder"
   s.homepage     = "https://github.com/ZXLBoaConstrictor"
   s.license      = "MIT"
@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.vendored_frameworks  = "ZXLRecorder/lame.framework"
   s.framework  = "AVFoundation"
   s.requires_arc = true
-
+  s.xcconfig = { "OTHER_LDFLAGS" => "-w" }
 end
