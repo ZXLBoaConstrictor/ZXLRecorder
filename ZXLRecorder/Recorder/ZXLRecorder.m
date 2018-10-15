@@ -16,7 +16,7 @@
 @interface ZXLRecorder()
 @property (nonatomic, strong) AVAudioRecorder *recorder;
 @property (nonatomic, strong) NSTimer         *timer;
-@property (nonatomic, assign) BOOL         isStopRecord;//结束录音控制
+@property (atomic, assign) BOOL         isStopRecord;//结束录音控制
 @property (nonatomic, assign) BOOL         isDestroyRecord; //销毁录音控制
 @property (nonatomic, assign) BOOL         isPauseRecord; //暂停录音控制
 @property (nonatomic, strong) ZXLThread * thread; //控制线程中录音转MP3 暂停和继续
@@ -52,7 +52,6 @@
 - (NSTimer *)timer {
     if (!_timer) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(audioPowerChange) userInfo:nil repeats:YES];
-        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return _timer;
 }
@@ -179,7 +178,10 @@
     self.isStopRecord = YES;
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
     if (cTime < 1){
-        [self.recorder deleteRecording];
+        if ([[NSFileManager defaultManager] fileExistsAtPath:self.recorder.url.path]) {
+            if (![self.recorder deleteRecording])
+                NSLog(@"Failed to delete %@", self.recorder.url);
+        }
         if (self.delegate && [self.delegate respondsToSelector:@selector(failRecord)]) {
             [self.delegate failRecord];
         }
@@ -196,7 +198,10 @@
     [self.thread signal];
     [self.timer setFireDate:[NSDate distantFuture]];
     [self.recorder stop];
-    [self.recorder deleteRecording];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:self.recorder.url.path]) {
+        if (![self.recorder deleteRecording])
+            NSLog(@"Failed to delete %@", self.recorder.url);
+    }
     [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
 }
 
