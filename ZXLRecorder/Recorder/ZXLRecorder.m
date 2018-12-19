@@ -16,7 +16,7 @@
 @interface ZXLRecorder()
 @property (nonatomic, strong) AVAudioRecorder *recorder;
 @property (nonatomic, strong) NSTimer         *timer;
-@property (atomic, assign) BOOL         isStopRecord;//结束录音控制
+@property (nonatomic, assign) BOOL         isStopRecord;//结束录音控制
 @property (nonatomic, assign) BOOL         isDestroyRecord; //销毁录音控制
 @property (nonatomic, assign) BOOL         isPauseRecord; //暂停录音控制
 @property (nonatomic, strong) ZXLThread * thread; //控制线程中录音转MP3 暂停和继续
@@ -52,6 +52,7 @@
 - (NSTimer *)timer {
     if (!_timer) {
         _timer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(audioPowerChange) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSRunLoopCommonModes];
     }
     return _timer;
 }
@@ -272,7 +273,14 @@
         
         if (!self.isDestroyRecord) {//销毁不做返回
             if (mp3FilePath && mp3FilePath.length > 0) {
-                if (self.delegate && [self.delegate respondsToSelector:@selector(endConvertWithMP3FileName:)]) {
+                NSError *error = nil;
+                long fileSize = 0;
+                NSDictionary *fileDict = [[NSFileManager defaultManager] attributesOfItemAtPath:mp3FilePath error:&error];
+                if (!error && fileDict){
+                    fileSize = (long)[fileDict fileSize];
+                }
+                
+                if (fileSize > 0 && self.delegate && [self.delegate respondsToSelector:@selector(endConvertWithMP3FileName:)]) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.delegate endConvertWithMP3FileName:mp3FilePath];
                     });
