@@ -129,11 +129,6 @@
 
 -(void)prepareToRecord{
     [self setAudioSession];
-    //清空历史录音文件
-    NSString *cafFilePath = [self cafPath];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:cafFilePath]) {
-        [[NSFileManager defaultManager] removeItemAtPath:cafFilePath error:nil];
-    }
     [self.recorder prepareToRecord];
 }
 
@@ -218,7 +213,7 @@
         int read, write;
         FILE*pcm =fopen([cafFilePath cStringUsingEncoding:NSASCIIStringEncoding],"rb");
         FILE*mp3 =fopen([mp3FilePath cStringUsingEncoding:NSASCIIStringEncoding],"wb");
-        
+
         const int PCM_SIZE = 8192;
         const int MP3_SIZE = 8192;
         short int pcm_buffer[PCM_SIZE * 2];
@@ -261,6 +256,7 @@
         read = (int)fread(pcm_buffer, 2 *sizeof(short int), PCM_SIZE, pcm);
         write = lame_encode_flush(lame, mp3_buffer, MP3_SIZE);
         lame_close(lame);
+        
         fclose(mp3);
         fclose(pcm);
     }
