@@ -220,17 +220,20 @@
         unsigned char mp3_buffer[MP3_SIZE];
         
         lame_t lame = lame_init();
+        lame_set_num_channels(lame,1);//设置1为单通道，默认为2双通道
         lame_set_in_samplerate(lame, 11025.0);
         lame_set_VBR(lame, vbr_default);
         lame_init_params(lame);
         
         long curpos;
         BOOL isSkipPCMHeader =NO;
+        long startPos = 0;
+        long endPos = 0;
         do{
             curpos = ftell(pcm);
-            long startPos = ftell(pcm);
+            startPos = ftell(pcm);
             fseek(pcm, 0,SEEK_END);
-            long endPos = ftell(pcm);
+            endPos = ftell(pcm);
             long length = endPos - startPos;
             fseek(pcm, curpos,SEEK_SET);
             if(length > PCM_SIZE * 2 *sizeof(short int)) {
@@ -242,6 +245,8 @@
                 read = (int)fread(pcm_buffer, 2 *sizeof(short int), PCM_SIZE, pcm);
                 write = lame_encode_buffer_interleaved(lame, pcm_buffer, read, mp3_buffer, MP3_SIZE);
                 fwrite(mp3_buffer, write, 1, mp3);
+                startPos = 0;
+                endPos = 0;
             }
             else{
                 [NSThread sleepForTimeInterval:0.05];
@@ -253,10 +258,19 @@
             
         }while(!self.isStopRecord);
         
+        //解决有可能最后短暂时间的录音没有转码
+        if (endPos - startPos > 0) {
+            read = (int)fread(pcm_buffer, 2*sizeof(short int), PCM_SIZE, pcm);
+            if (read != 0) {
+                write = lame_encode_buffer_interleaved(lame, pcm_buffer, read, mp3_buffer, MP3_SIZE);
+                fwrite(mp3_buffer, write, 1, mp3);
+            }
+        }
+        
         read = (int)fread(pcm_buffer, 2 *sizeof(short int), PCM_SIZE, pcm);
         write = lame_encode_flush(lame, mp3_buffer, MP3_SIZE);
+        lame_mp3_tags_fid(lame, mp3);
         lame_close(lame);
-        
         fclose(mp3);
         fclose(pcm);
     }

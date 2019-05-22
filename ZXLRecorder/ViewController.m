@@ -168,8 +168,11 @@
 
 - (void)endConvertWithMP3FileName:(NSString *)filePath {
     self.strPath = filePath;
+    AVURLAsset *avUrl = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:filePath]];
+    CMTime time = [avUrl duration];
+    double second = ceil(time.value / time.timescale);
     
-    _tipsLabel.text = @"录制成功";
+    _tipsLabel.text = [NSString stringWithFormat:@"录制成功-%lf",second];
 }
 
 - (void)failRecord {
