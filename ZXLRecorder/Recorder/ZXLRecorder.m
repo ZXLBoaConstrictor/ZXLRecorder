@@ -220,9 +220,11 @@
         unsigned char mp3_buffer[MP3_SIZE];
         
         lame_t lame = lame_init();
-        lame_set_num_channels(lame,1);//设置1为单通道，默认为2双通道
-        lame_set_in_samplerate(lame, 11025.0);
-        lame_set_VBR(lame, vbr_default);
+        lame_set_num_channels(lame,2);//通道
+        lame_set_in_samplerate(lame, 11025.0);//采样率
+        lame_set_brate(lame, 16);//比特率
+        lame_set_quality(lame, 2);//音质
+        lame_set_mode(lame, 3);
         lame_init_params(lame);
         
         long curpos;
@@ -269,7 +271,6 @@
         
         read = (int)fread(pcm_buffer, 2 *sizeof(short int), PCM_SIZE, pcm);
         write = lame_encode_flush(lame, mp3_buffer, MP3_SIZE);
-        lame_mp3_tags_fid(lame, mp3);
         lame_close(lame);
         fclose(mp3);
         fclose(pcm);

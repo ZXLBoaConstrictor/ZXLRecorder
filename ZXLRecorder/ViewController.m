@@ -170,7 +170,7 @@
     self.strPath = filePath;
     AVURLAsset *avUrl = [AVURLAsset assetWithURL:[NSURL fileURLWithPath:filePath]];
     CMTime time = [avUrl duration];
-    double second = ceil(time.value / time.timescale);
+    double second = CMTimeGetSeconds(time);
     
     _tipsLabel.text = [NSString stringWithFormat:@"录制成功-%lf",second];
 }
