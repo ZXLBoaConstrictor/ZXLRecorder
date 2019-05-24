@@ -19,6 +19,7 @@
 @property (nonatomic, assign) BOOL         isStopRecord;//结束录音控制
 @property (nonatomic, assign) BOOL         isDestroyRecord; //销毁录音控制
 @property (nonatomic, assign) BOOL         isPauseRecord; //暂停录音控制
+@property (nonatomic, assign) BOOL         isRecorderFail; //录音失败
 @property (nonatomic, strong) ZXLThread * thread; //控制线程中录音转MP3 暂停和继续
 @end
 
@@ -29,7 +30,8 @@
     if (self = [super init]) {
         _delegate = delegate;
         self.isStopRecord = YES;
-        self.isDestroyRecord = YES;
+        self.isDestroyRecord = NO;
+        self.isRecorderFail = NO;
         self.maxTime = 60;
     }
     return self;
@@ -64,7 +66,6 @@
                                                 settings:[self audioRecorderSettings]
                                                    error:&recorderSetupError];
         if (recorderSetupError) {
-//            NSLog(@"创建播放器过程中发生错误，错误信息：%@",recorderSetupError.localizedDescription);
             return nil;
         }
         _recorder.meteringEnabled = YES;//声波测试
@@ -105,7 +106,7 @@
     // 更新扬声器
     if ([self.delegate respondsToSelector:@selector(peakPowerForChannel:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-             [self.delegate peakPowerForChannel:peakPowerForChannel];
+            [self.delegate peakPowerForChannel:peakPowerForChannel];
         });
     }
     // 当前录音时长更新
@@ -120,7 +121,7 @@
         [self stop];
         if ([self.delegate respondsToSelector:@selector(maxTimeStopRecord)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                 [self.delegate maxTimeStopRecord];
+                [self.delegate maxTimeStopRecord];
             });
         }
     }
@@ -133,11 +134,12 @@
 }
 
 - (void)start{
-  if ([self isRecording]) return;
+    if ([self isRecording]) return;
     
     [self prepareToRecord];
     self.isStopRecord = NO;
     self.isDestroyRecord = NO;
+    self.isRecorderFail = NO;
     [self.recorder record];
     [self.timer setFireDate:[NSDate distantPast]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -172,8 +174,9 @@
     double cTime = self.recorder.currentTime;
     [self.recorder stop];
     self.isStopRecord = YES;
-    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
+    //录音小于1秒直接返回录音错误
     if (cTime < 1){
+        self.isRecorderFail = YES;
         if ([[NSFileManager defaultManager] fileExistsAtPath:self.recorder.url.path]) {
             if (![self.recorder deleteRecording])
                 NSLog(@"Failed to delete %@", self.recorder.url);
@@ -182,13 +185,14 @@
             [self.delegate failRecord];
         }
     }
+    [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayback error: nil];
 }
 
 - (void)destroy{
     if (self.isStopRecord || self.isDestroyRecord) {
         return;
     }
-   
+    
     self.isDestroyRecord = YES;
     self.isStopRecord = YES;
     [self.thread signal];
@@ -213,7 +217,7 @@
         int read, write;
         FILE*pcm =fopen([cafFilePath cStringUsingEncoding:NSASCIIStringEncoding],"rb");
         FILE*mp3 =fopen([mp3FilePath cStringUsingEncoding:NSASCIIStringEncoding],"wb");
-
+        
         const int PCM_SIZE = 8192;
         const int MP3_SIZE = 8192;
         short int pcm_buffer[PCM_SIZE * 2];
@@ -282,7 +286,7 @@
     
     @finally{
         
-        if (!self.isDestroyRecord) {//销毁不做返回
+        if (!self.isDestroyRecord && !self.isRecorderFail) {//销毁不做返回
             if (mp3FilePath && mp3FilePath.length > 0) {
                 NSError *error = nil;
                 long fileSize = 0;
