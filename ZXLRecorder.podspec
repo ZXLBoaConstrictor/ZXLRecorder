@@ -12,5 +12,4 @@ Pod::Spec.new do |s|
   s.vendored_frameworks  = "ZXLRecorder/lame.framework"
   s.framework  = "AVFoundation"
   s.requires_arc = true
-  s.xcconfig = { "OTHER_LDFLAGS" => "-w" }
 end
